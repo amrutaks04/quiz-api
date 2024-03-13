@@ -1,10 +1,10 @@
 const mongoose=require ('mongoose')
 const quizSchema=new mongoose.Schema({
-    userName:{
+    username:{
         type:String
     },
     password:{
-        type:[String]
+        type:String
     }
 })
 

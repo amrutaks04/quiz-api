@@ -26,39 +26,45 @@ async function connectToDb() {
 connectToDb()
 
 
-app.post('/add-ques',async function(request,response){
 
-try {
-  await Login.create({
-      "userName": request.body.userName,
-      "password":request.body.password
+
+
+app.post('/add-ques', async function(request, response) {
+    try {
+      const newUser = await Login.create({
+        username: request.body.username,
+        password: request.body.password
+      })
+      response.status(201).json({
+        status: 'success',
+        message: 'User created successfully',
+        user: newUser
+      })
+    } catch (error) {
+      console.error('Error creating user:', error)
+      response.status(500).json({
+        status: 'failure',
+        message: 'Failed to create user',
+        error: error.message
+      })
+    }
   })
-  response.status(201).json({
-      "status" : "success",
-      "message" : "entry created"
-  })
-} catch(error) {
-  response.status(401).json({
-      "status" : "failure",
-      "message" : "entry not created",
-      "error" : error
-  })
-}
-})
-
-app.get('/get-ques',async function(request,response){
-try{
-  const login=await Login.find()
-  response.status(200).json(login)
-}catch(error){
-  response.status(500).json({
-    "status" : "failure",
-    "message" : "entry not created",
-    "error" : error
-})
-}
-})
-
-
+  
+  // Route to fetch all users
+  app.get('/get-ques', async function(request, response) {
+    try {
+      const users = await Login.find();
+      response.status(200).json(users);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      response.status(500).json({
+        status: 'failure',
+        message: 'Failed to fetch users',
+        error: error.message
+      });
+    }
+  });
+  
+  module.exports = app; 
 
 
