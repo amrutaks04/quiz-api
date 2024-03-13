@@ -3,9 +3,11 @@ const mongoose = require('mongoose')
 const express = require('express')
 const Login =require('./schema.js')
 const bodyParser = require('body-parser')
+const cors=require('cors')
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cors())
 
 async function connectToDb() {
   try{
